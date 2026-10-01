@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050711" />
+  <title>Alien Even Horizon</title>
+  <style>
+    :root {
+      --void: #050711;
+      --deep: #090d1d;
+      --panel: rgba(11, 18, 40, 0.74);
+      --line: rgba(141, 196, 255, 0.22);
+      --text: #e9f5ff;
+      --muted: #91a8c7;
+      --cyan: #61f4ff;
+      --violet: #9b70ff;
+      --pink: #ff5ca8;
+      --green: #b5ff9e;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      background: var(--void);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.11;
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.12) 0,
+        rgba(255,255,255,0.12) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      mix-blend-mode: screen;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 11;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.58) 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .stars,
+    .stars::before,
+    .stars::after {
+      position: fixed;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+    }
+
+    .stars {
+      opacity: 0.8;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.9) 0 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(97,244,255,0.8) 0 1px, transparent 1.5px);
+      background-size: 97px 113px, 173px 151px;
+      background-position: 8px 11px, 60px 38px;
+      animation: drift 30s linear infinite;
+    }
+
+    .stars::before {
+      opacity: 0.55;
+      background-image: radial-gradient(circle, #ffffff 0 1px, transparent 1.5px);
+      background-size: 211px 191px;
+      background-position: 80px 15px;
+    }
+
+    .stars::after {
+      opacity: 0.7;
+      background: radial-gradient(ellipse at 50% 58%, rgba(97,244,255,0.12), transparent 35%);
+    }
+
+    @keyframes drift {
+      to { transform: translate3d(-97px, 113px, 0); }
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 36px));
+      margin: auto;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      min-height: 88px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .brand-orb {
+      width: 31px;
+      height: 31px;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 16px var(--cyan), inset 0 0 12px var(--violet);
+      position: relative;
+    }
+
+    .brand-orb::before,
+    .brand-orb::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px solid var(--violet);
+      border-radius: 50%;
+      transform: rotate(60deg) scaleX(1.8);
+    }
+
+    .brand-orb::after { transform: rotate(-60deg) scaleX(1.8); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover { color: var(--cyan); }
+
+    .signal {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--green);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .signal-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px var(--green);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      50% { opacity: 0.25; transform: scale(0.7); }
+    }
+
+    .hero {
+      min-height: 730px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 50px;
+      padding: 80px 0 65px;
+    }
+
+    .kicker {
+      color: var(--cyan);
+      font-size: 0.75rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 680px;
+      margin: 19px 0 23px;
+      font-family: Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(3.7rem, 8vw, 8rem);
+      line-height: 0.86;
+      letter-spacing: -0.08em;
+    }
+
+    h1 span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--cyan);
+      text-shadow: 0 0 24px rgba(97,244,255,0.3);
+    }
+
+    .hero-copy {
+      max-width: 510px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 31px; }
+
+    .button {
+      border: 1px solid var(--cyan);
+      border-radius: 2px;
+      padding: 13px 19px;
+      cursor: pointer;
+      color: var(--void);
+      background: var(--cyan);
+      box-shadow: 0 0 24px rgba(97,244,255,0.22);
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      transition: 0.25s ease;
+    }
+
+    .button:hover { transform: translateY(-3px); box-shadow: 0 0 35px rgba(97,244,255,0.45); }
+
+    .button.ghost { color: var(--cyan); background: transparent; box-shadow: none; }
+    .button.ghost:hover { background: rgba(97,244,255,0.08); }
+
+    .coordinates {
+      margin-top: 42px;
+      color: #637a9a;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      line-height: 2;
+      text-transform: uppercase;
+    }
+
+    .portal-wrap { display: grid; place-items: center; min-height: 500px; }
+
+    .portal {
+      width: min(500px, 80vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      position: relative;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.16) 0 2%, transparent 2.5% 13%, rgba(97,244,255,0.14) 13.5% 14%, transparent 14.5%),
+        radial-gradient(circle, #0d1633 0 28%, #17295c 29%, #7658c9 35%, #14295a 42%, #050711 63%);
+      box-shadow:
+        0 0 35px rgba(97,244,255,0.45),
+        0 0 100px rgba(155,112,255,0.35),
+        inset 0 0 60px #01030c;
+      animation: hover 5s ease-in-out infinite;
+    }
+
+    .portal::before,
+    .portal::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 17px var(--cyan);
+    }
+
+    .portal::before { inset: 8%; transform: rotate(18deg) scaleX(1.25); }
+    .portal::after { inset: 14%; transform: rotate(-24deg) scaleY(0.62); border-color: var(--pink); box-shadow: 0 0 18px var(--pink); }
+
+    @keyframes hover {
+      50% { transform: translateY(-12px) rotate(1deg); }
+    }
+
+    .planet {
+      width: 44%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.25), transparent 10%),
+        radial-gradient(circle at 62% 55%, #183f5c 0 10%, transparent 11%),
+        radial-gradient(circle at 38% 70%, #2e6280 0 8%, transparent 9%),
+        linear-gradient(135deg, #102434, #142b4e 50%, #050711);
+      box-shadow: -19px -12px 35px rgba(97,244,255,0.28), inset -18px -22px 34px #02040c;
+    }
+
+    .portal-label {
+      position: absolute;
+      right: -28px;
+      bottom: 11%;
+      padding: 12px 15px;
+      border: 1px solid var(--line);
+      background: rgba(5, 7, 17, 0.82);
+      color: var(--cyan);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      box-shadow: 0 0 25px rgba(97,244,255,0.12);
+    }
+
+    .section { padding: 75px 0; border-top: 1px solid var(--line); }
+
+    .section-heading { max-width: 650px; margin-bottom: 35px; }
+
+    .section-heading h2 {
+      margin: 12px 0 14px;
+      font-family: Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .section-heading p { color: var(--muted); line-height: 1.8; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+    }
+
+    .card {
+      min-height: 215px;
+      padding: 23px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(17, 27, 58, 0.72), rgba(5, 7, 17, 0.7));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -45px;
+      bottom: -50px;
+      border-radius: 50%;
+      background: var(--violet);
+      filter: blur(42px);
+      opacity: 0.35;
+    }
+
+    .card-number { color: var(--cyan); font-size: 0.72rem; letter-spacing: 0.18em; }
+    .card h3 { margin: 35px 0 10px; font-family: Georgia, serif; font-size: 1.7rem; font-weight: 400; }
+    .card p { color: var(--muted); line-height: 1.7; font-size: 0.9rem; }
+
+    .horizon {
+      height: 260px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(to bottom, #050711 0 46%, #111a38 47%, #362c68 54%, #090d1d 55% 100%);
+    }
+
+    .horizon::before {
+      content: "";
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      top: 46%;
+      height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 20px 4px var(--cyan), 0 0 80px 12px var(--violet);
+    }
+
+    .horizon::after {
+      content: "";
+      position: absolute;
+      inset: 55% 0 0;
+      background: repeating-linear-gradient(95deg, transparent 0 55px, rgba(97,244,255,0.17) 56px 57px), repeating-linear-gradient(0deg, transparent 0 31px, rgba(155,112,255,0.17) 32px 33px);
+      transform: perspective(180px) rotateX(52deg) scale(1.5);
+      transform-origin: top;
+    }
+
+    .horizon-copy {
+      position: absolute;
+      z-index: 2;
+      left: 25px;
+      top: 24px;
+      color: var(--text);
+      font-family: Georgia, serif;
+      font-size: 2rem;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0 45px;
+      color: #637a9a;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding-top: 62px; }
+      .portal-wrap { min-height: 410px; }
+      .grid { grid-template-columns: 1fr; }
+      .portal-label { right: 0; }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 26px, 1180px); }
+      .nav { min-height: 72px; }
+      .signal { display: none; }
+      h1 { font-size: 3.6rem; }
+      .portal { width: 90vw; }
+      .footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <header class="shell nav">
+    <a class="brand" href="#top" aria-label="Alien Even Horizon home">
+      <span class="brand-orb" aria-hidden="true"></span>
+      Alien / Even Horizon
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#signal">Signal</a>
+      <a href="#mission">Mission</a>
+      <a href="#horizon">Horizon</a>
+    </nav>
+    <div class="signal"><span class="signal-dot"></span> Signal online</div>
+  </header>
+
+  <main id="top" class="shell">
+    <section class="hero" id="signal">
+      <div>
+        <div class="kicker">Transmission 07 / Outer atmosphere</div>
+        <h1>Meet the <span>unknown.</span></h1>
+        <p class="hero-copy">
+          Alien Even Horizon is a visual portal for ideas beyond the ordinary — a cinematic digital experience
+          where future culture, cosmic technology, and human curiosity intersect.
+        </p>
+        <div class="actions">
+          <a href="#mission" class="button">Enter the signal</a>
+          <a href="#horizon" class="button ghost">View horizon</a>
+        </div>
+        <div class="coordinates">
+          Coordinates: 43° 17' 08.2" N / 71° 44' 19.7" W<br />
+          Frequency: 98.04 / Status: Receiving
+        </div>
+      </div>
+
+      <div class="portal-wrap">
+        <div class="portal" aria-label="Glowing alien planet portal">
+          <div class="planet"></div>
+          <div class="portal-label">Unknown world / 01</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mission">
+      <div class="section-heading">
+        <div class="kicker">The mission</div>
+        <h2>Not a destination.<br />A new point of view.</h2>
+        <p>
+          Step through the threshold and discover a world built from atmosphere, signal, and impossible color.
+          Designed for dreamers, creators, and explorers who refuse to stay inside the map.
+        </p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="card-number">01 / SIGNAL</div>
+          <h3>Receive differently.</h3>
+          <p>Cut through the static with a clear visual language that makes every interaction feel discovered.</p>
+        </article>
+        <article class="card">
+          <div class="card-number">02 / ORBIT</div>
+          <h3>Move beyond.</h3>
+          <p>Explore a responsive universe of luminous surfaces, deep space, and details that reward curiosity.</p>
+        </article>
+        <article class="card">
+          <div class="card-number">03 / RETURN</div>
+          <h3>Bring back wonder.</h3>
+          <p>Leave with a fresh perspective — and the courage to build something that has never existed before.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="horizon">
+      <div class="section-heading">
+        <div class="kicker">Even horizon</div>
+        <h2>The future is closer than it looks.</h2>
+        <p>At the edge of the visible world, the horizon is not an ending. It is an invitation.</p>
+      </div>
+      <div class="horizon">
+        <div class="horizon-copy">There is more beyond the light.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Alien Even Horizon © 2025</span>
+    <span>Transmission complete / Stay curious</span>
+  </footer>
+</body>
+</html>
