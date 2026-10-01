@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaPeak Studio</title>
+    <meta
+      name="description"
+      content="Modern business landing page with portfolio, ecommerce hero section, and dark/light mode toggle."
+    />
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --bg-alt: #eaf0ff;
+        --panel: rgba(255, 255, 255, 0.78);
+        --panel-strong: #ffffff;
+        --text: #101828;
+        --text-soft: #475467;
+        --muted: #667085;
+        --primary: #6d5ef6;
+        --primary-2: #8b5cf6;
+        --secondary: #00c2a8;
+        --accent: #ff7a59;
+        --warning: #fbbf24;
+        --border: rgba(16, 24, 40, 0.08);
+        --shadow: 0 20px 50px rgba(20, 34, 72, 0.12);
+        --card-shadow: 0 12px 28px rgba(38, 47, 83, 0.12);
+        --hero-gradient: linear-gradient(135deg, rgba(109, 94, 246, 0.16), rgba(0, 194, 168, 0.18), rgba(255, 122, 89, 0.16));
+        --product-bg: linear-gradient(135deg, rgba(109,94,246,0.14), rgba(255,255,255,0.9));
+      }
+
+      body.dark {
+        --bg: #0b1020;
+        --bg-alt: #10192e;
+        --panel: rgba(17, 24, 39, 0.72);
+        --panel-strong: #111827;
+        --text: #edf2ff;
+        --text-soft: #d7e0ff;
+        --muted: #9aa7bf;
+        --primary: #8b7bff;
+        --primary-2: #a78bfa;
+        --secondary: #2dd4bf;
+        --accent: #ff8b6a;
+        --warning: #fbbf24;
+        --border: rgba(148, 163, 184, 0.16);
+        --shadow: 0 25px 60px rgba(2, 6, 23, 0.45);
+        --card-shadow: 0 14px 32px rgba(1, 6, 20, 0.38);
+        --hero-gradient: linear-gradient(135deg, rgba(139, 123, 255, 0.2), rgba(45, 212, 191, 0.16), rgba(255, 139, 106, 0.12));
+        --product-bg: linear-gradient(135deg, rgba(139,123,255,0.18), rgba(17,24,39,0.9));
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(109, 94, 246, 0.18), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(0, 194, 168, 0.14), transparent 26%),
+          var(--bg);
+        color: var(--text);
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(14px);
+        background: rgba(244, 247, 251, 0.68);
+        border-bottom: 1px solid var(--border);
+      }
+
+      body.dark .site-header {
+        background: rgba(11, 16, 32, 0.7);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 78px;
+        gap: 20px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 1.05rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 10px 22px rgba(109, 94, 246, 0.4);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--text-soft);
+        font-size: 0.96rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .theme-toggle {
+        width: 64px;
+        height: 34px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        position: relative;
+        background: rgba(148, 163, 184, 0.12);
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        top: 4px;
+        left: 5px;
+        background: linear-gradient(135deg, #ffd86a, #f59e0b);
+        box-shadow: 0 6px 14px rgba(245, 158, 11, 0.35);
+        transition: transform 0.25s ease;
+      }
+
+      body.dark .theme-toggle::before {
+        transform: translateX(29px);
+        background: linear-gradient(135deg, #dbeafe, #93c5fd);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 14px;
+        padding: 0.9rem 1.3rem;
+        font-weight: 700;
+        font-size: 0.96rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: white;
+        box-shadow: 0 16px 30px rgba(109, 94, 246, 0.34);
+      }
+
+      .button.secondary {
+        background: rgba(109, 94, 246, 0.08);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .hero {
+        padding: 64px 0 32px;
+      }
+
+      .hero-wrap {
+        background: var(--hero-gradient);
+        border: 1px solid var(--border);
+        border-radius: 32px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+        align-items: center;
+        padding: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: rgba(255, 255, 255, 0.45);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 5vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+        margin: 20px 0 18px;
+      }
+
+      .hero h1 span {
+        background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 620px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+        line-height: 1.8;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      .mini-proof {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-top: 28px;
+        color: var(--text-soft);
+      }
+
+      .avatar-group {
+        display: flex;
+        padding-left: 8px;
+      }
+
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 2px solid var(--panel-strong);
+        margin-left: -8px;
+        background: linear-gradient(135deg, #fbcfe8, #a78bfa, #60a5fa);
+      }
+
+      .avatar:first-child { margin-left: 0; }
+
+      .avatar:nth-child(2) { background: linear-gradient(135deg, #fed7aa, #fca5a5, #f9a8d4); }
+      .avatar:nth-child(3) { background: linear-gradient(135deg, #bbf7d0, #34d399, #14b8a6); }
+
+      .hero-card {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 500px;
+      }
+
+      .dashboard {
+        width: min(100%, 520px);
+        background: rgba(10, 14, 24, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 18px;
+        backdrop-filter: blur(8px);
+        box-shadow: var(--card-shadow);
+      }
+
+      .dashboard-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .dot-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.7);
+      }
+
+      .dot:nth-child(1) { background: #f87171; }
+      .dot:nth-child(2) { background: #fbbf24; }
+      .dot:nth-child(3) { background: #4ade80; }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        background: rgba(109, 94, 246, 0.15);
+        color: var(--primary);
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .dashboard-graph {
+        height: 180px;
+        border-radius: 20px;
+        background: var(--product-bg);
+        border: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 18px;
+      }
+
+      .bars {
+        position: absolute;
+        inset: 24px 20px 18px 20px;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .bar {
+        flex: 1;
+        border-radius: 12px 12px 0 0;
+        background: linear-gradient(180deg, var(--primary), var(--secondary));
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+      }
+
+      .bar:nth-child(1) { height: 48%; }
+      .bar:nth-child(2) { height: 64%; }
+      .bar:nth-child(3) { height: 82%; }
+      .bar:nth-child(4) { height: 58%; }
+      .bar:nth-child(5) { height: 94%; }
+      .bar:nth-child(6) { height: 76%; }
+
+      .dashboard-bottom {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 16px;
+      }
+
+      .mini-panel {
+        background: var(--panel-strong);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 16px;
+      }
+
+      .mini-label {
+        color: var(--muted);
+        font-size: 0.74rem;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .big-number {
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .percent {
+        margin-top: 12px;
+        color: var(--secondary);
+        font-weight: 700;
+      }
+
+      .progress {
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.2);
+        overflow: hidden;
+        margin-top: 12px;
+      }
+
+      .progress > span {
+        display: block;
+        width: 68%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        border-radius: inherit;
+      }
+
+      .section {
+        padding: 44px 0;
+      }
+
+      .heading-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 18px;
+        margin-bottom: 28px;
+      }
+
+      .section-tag {
+        color: var(--primary);
+        font-size: 0.76rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-weight: 800;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.05em;
+      }
+
+      .subtext {
+        color: var(--text-soft);
+        max-width: 560px;
+        line-height: 1.8;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 18px;
+      }
+
+      .stat-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 22px 18px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 18px;
+        font-size: 1.25rem;
+        background: linear-gradient(135deg, rgba(109,94,246,0.18), rgba(0,194,168,0.16));
+        color: var(--primary);
+      }
+
+      .stat-number {
+        font-size: 2.1rem;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+
+      .stat-card p {
+        margin: 10px 0 0;
+        color: var(--text-soft);
+        line-height: 1.7;
+      }
+
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .project-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+      }
+
+      .project-visual {
+        height: 220px;
+        background: linear-gradient(135deg, rgba(109,94,246,0.12), rgba(0,194,168,0.10), rgba(255,122,89,0.12));
+        position: relative;
+      }
+
+      .project-ui {
+        position: absolute;
+        inset: 20px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.25);
+        backdrop-filter: blur(4px);
+      }
+
+      .project-ui::before,
+      .project-ui::after {
+        content: "";
+        position: absolute;
+        border-radius: 12px;
+      }
+
+      .project-ui::before {
+        left: 18px;
+        top: 18px;
+        width: 44%;
+        height: 22px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+      }
+
+      .project-ui::after {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        height: 110px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(148,163,184,0.12));
+      }
+
+      .project-content {
+        padding: 20px;
+      }
+
+      .project-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .tag {
+        display: inline-flex;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(109, 94, 246, 0.08);
+        color: var(--primary);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .project-content h3 {
+        margin: 0 0 8px;
+        font-size: 1.5rem;
+        letter-spacing: -0.04em;
+      }
+
+      .project-content p {
+        margin: 0;
+        color: var(--text-soft);
+        line-height: 1.7;
+      }
+
+      .ecom-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        align-items: center;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 22px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .ecom-copy h2 {
+        margin-bottom: 12px;
+      }
+
+      .ecom-copy p {
+        color: var(--text-soft);
+        line-height: 1.8;
+        margin: 0 0 22px;
+      }
+
+      .feature-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(160px, 1fr));
+        gap: 14px;
+        margin: 20px 0 26px;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        color: var(--text-soft);
+        background: rgba(109, 94, 246, 0.03);
+      }
+
+      .feature-bullet {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+      }
+
+      .product-showcase {
+        background: var(--product-bg);
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        padding: 18px;
+        position: relative;
+      }
+
+      .product-card {
+        background: var(--panel-strong);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+      }
+
+      .product-image {
+        height: 260px;
+        background: linear-gradient(135deg, #e0e7ff, #c7d2fe 40%, #a7f3d0);
+        position: relative;
+      }
+
+      .headset {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 240px;
+        height: 180px;
+        border-radius: 50% 50% 45% 45%/58% 58% 40% 40%;
+        background: linear-gradient(135deg, #1f2937, #111827 30%, #5b21b6 80%);
+        box-shadow: inset 0 0 0 14px rgba(255,255,255,0.08), 0 18px 30px rgba(15, 23, 42, 0.18);
+      }
+
+      .headset::before,
+      .headset::after {
+        content: "";
+        position: absolute;
+        width: 56px;
+        height: 90px;
+        border-radius: 18px;
+        background: #111827;
+        top: 64px;
+      }
+
+      .headset::before { left: 33px; }
+      .headset::after { right: 33px; }
+
+      .product-body {
+        padding: 20px 18px 18px;
+      }
+
+      .product-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .product-name {
+        margin: 14px 0 6px;
+        font-size: 1.7rem;
+        letter-spacing: -0.05em;
+      }
+
+      .rating {
+        color: var(--warning);
+        letter-spacing: 0.08em;
+        font-size: 0.82rem;
+      }
+
+      .product-price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+      }
+
+      .price {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+      }
+
+      .old-price {
+        color: var(--muted);
+        text-decoration: line-through;
+        font-size: 1rem;
+        margin-left: 7px;
+      }
+
+      .discount {
+        display: inline-flex;
+        background: rgba(255, 122, 89, 0.12);
+        color: var(--accent);
+        border-radius: 999px;
+        padding: 7px 10px;
+        font-weight: 700;
+        font-size: 0.78rem;
+      }
+
+      .cta-strip {
+        margin-top: 38px;
+        background: linear-gradient(135deg, rgba(109,94,246,0.12), rgba(0,194,168,0.12));
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 28px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .cta-strip h3 {
+        margin: 0 0 8px;
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        letter-spacing: -0.05em;
+      }
+
+      .cta-strip p {
+        margin: 0;
+        color: var(--text-soft);
+      }
+
+      .site-footer {
+        padding: 18px 0 48px;
+        color: var(--text-soft);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+      }
+
+      .footer-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      @media (max-width: 980px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero-inner,
+        .ecom-wrap,
+        .dashboard-bottom {
+          grid-template-columns: 1fr;
+        }
+
+        .portfolio-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, minmax(180px, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding-top: 34px;
+        }
+
+        .hero-inner {
+          padding: 18px;
+        }
+
+        .portfolio-grid,
+        .stats-grid,
+        .feature-list {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-strip,
+        .footer-inner,
+        .heading-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav {
+          min-height: 70px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="#top" class="brand" aria-label="NovaPeak home">
+          <span class="brand-mark">N</span>
+          <span>NovaPeak</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#solutions">Solutions</a>
+          <a href="#portfolio">Work</a>
+          <a href="#shop">Shop</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+          <a href="#contact" class="button primary">Book a call</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-wrap">
+          <div class="hero-inner">
+            <div>
+              <div class="eyebrow">Growth-first digital studio</div>
+              <h1>Build your next <span>big move</span> with confidence.</h1>
+              <p>
+                We help startups and modern brands turn bold ideas into traction, sharper experiences,
+                and measurable revenue through strategy, design, and conversion-focused execution.
+              </p>
+
+              <div class="cta-row">
+                <a href="#portfolio" class="button primary">View portfolio</a>
+                <a href="#shop" class="button secondary">Explore products</a>
+              </div>
+
+              <div class="mini-proof">
+                <div class="avatar-group" aria-label="Customer avatars">
+                  <span class="avatar"></span>
+                  <span class="avatar"></span>
+                  <span class="avatar"></span>
+                </div>
+                <div>
+                  <strong>4.9/5</strong> from 2,100+ client reviews
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-card" aria-label="Performance dashboard preview">
+              <div class="dashboard">
+                <div class="dashboard-top">
+                  <div class="dot-row">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                  </div>
+                  <span class="chip">+38.2% ROI</span>
+                </div>
+
+                <div class="dashboard-graph" aria-label="Revenue trend chart">
+                  <div class="bars">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                  </div>
+                </div>
+
+                <div class="dashboard-bottom">
+                  <div class="mini-panel">
+                    <div class="mini-label">Projected growth</div>
+                    <div class="big-number">$2.4M</div>
+                    <div class="percent">+64% this quarter</div>
+                    <div class="progress"><span></span></div>
+                  </div>
+
+                  <div class="mini-panel">
+                    <div class="mini-label">Conversion</div>
+                    <div class="big-number">8.7%</div>
+                    <div class="percent">Above target</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="solutions">
+        <div class="container">
+          <div class="heading-row">
+            <div>
+              <div class="section-tag">Why teams choose us</div>
+              <h2>Built for momentum.</h2>
+            </div>
+            <p class="subtext">
+              We combine strategy, brand clarity, and product thinking to create experiences that convert.
+            </p>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-icon">⚡</div>
+              <div class="stat-number">3x</div>
+              <p>Faster launches through agile design systems and execution frameworks.</p>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">📈</div>
+              <div class="stat-number">96%</div>
+              <p>Average client retention after transformation and optimization projects.</p>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-number">120+</div>
+              <p>Growth campaigns, websites, and product experiences shipped globally.</p>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">🤝</div>
+              <div class="stat-number">24/7</div>
+              <p>Partnership support for founders, teams, and modern operators.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="portfolio">
+        <div class="container">
+          <div class="heading-row">
+            <div>
+              <div class="section-tag">Portfolio</div>
+              <h2>Recent work.</h2>
+            </div>
+            <a href="#contact" class="button secondary">Discuss a project</a>
+          </div>
+
+          <div class="portfolio-grid">
+            <article class="project-card">
+              <div class="project-visual">
+                <div class="project-ui"></div>
+              </div>
+              <div class="project-content">
+                <div class="project-meta">
+                  <span class="tag">SaaS</span>
+                  <span>2024</span>
+                </div>
+                <h3>PulseFlow</h3>
+                <p>Repositioned a B2B analytics platform and rebuilt the funnel for higher product adoption.</p>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-visual" style="background: linear-gradient(135deg, rgba(255,122,89,0.12), rgba(109,94,246,0.10), rgba(0,194,168,0.12));">
+                <div class="project-ui" style="background: rgba(255,255,255,0.18);"></div>
+              </div>
+              <div class="project-content">
+                <div class="project-meta">
+                  <span class="tag">Brand</span>
+                  <span>2024</span>
+                </div>
+                <h3>Northstar Labs</h3>
+                <p>Created a premium brand system and marketing site to support international expansion.</p>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-visual" style="background: linear-gradient(135deg, rgba(0,194,168,0.12), rgba(109,94,246,0.10), rgba(255,122,89,0.15));">
+                <div class="project-ui" style="background: rgba(255,255,255,0.2);"></div>
+              </div>
+              <div class="project-content">
+                <div class="project-meta">
+                  <span class="tag">Ecommerce</span>
+                  <span>2025</span>
+                </div>
+                <h3>Arlo Market</h3>
+                <p>Built a conversion-first storefront and creative engine that lifted repeat purchases.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="shop">
+        <div class="container">
+          <div class="ecom-wrap">
+            <div class="ecom-copy">
+              <div class="section-tag">Ecommerce</div>
+              <h2>Smart gear for sharp teams.</h2>
+              <p>
+                Premium productivity setups, creator tools, and studio essentials designed to help modern teams move faster,
+                work better, and look professional with every click.
+              </p>
+
+              <div class="feature-list">
+                <div class="feature"><span class="feature-bullet"></span> Free shipping</div>
+                <div class="feature"><span class="feature-bullet"></span> 30-day returns</div>
+                <div class="feature"><span class="feature-bullet"></span> Pro support</div>
+                <div class="feature"><span class="feature-bullet"></span> 2-year warranty</div>
+              </div>
+
+              <a href="#contact" class="button primary">Shop collection</a>
+            </div>
+
+            <div class="product-showcase" aria-label="Featured product card">
+              <article class="product-card">
+                <div class="product-image">
+                  <div class="headset" aria-hidden="true"></div>
+                </div>
+                <div class="product-body">
+                  <div class="product-meta">
+                    <span>Featured product</span>
+                    <span class="rating">★★★★★</span>
+                  </div>
+                  <h3 class="product-name">Aster Pro Headset</h3>
+                  <div class="product-price-row">
+                    <div>
+                      <span class="price">$299</span>
+                      <span class="old-price">$399</span>
+                    </div>
+                    <span class="discount">25% OFF</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="cta-strip" id="pricing">
+            <div>
+              <h3>Turn ideas into a system that scales.</h3>
+              <p>Strategy, design, and growth support built around your next stage of growth.</p>
+            </div>
+            <a href="#contact" class="button primary">Start your project</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="container footer-inner">
+        <div class="brand">
+          <span class="brand-mark">N</span>
+          <span>NovaPeak</span>
+        </div>
+
+        <div class="footer-links">
+          <a href="#solutions">Solutions</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#shop">Marketplace</a>
+        </div>
+
+        <div>© 2025 NovaPeak Studio</div>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.getElementById('themeToggle');
+      const body = document.body;
+
+      function applyTheme(theme) {
+        const isDark = theme === 'dark';
+        body.classList.toggle('dark', isDark);
+        toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        applyTheme('dark');
+      }
+
+      toggle.addEventListener('click', () => {
+        const nextTheme = body.classList.contains('dark') ? 'light' : 'dark';
+        localStorage.setItem('theme', nextTheme);
+        applyTheme(nextTheme);
+      });
+    </script>
+  </body>
+</html>
